@@ -1,0 +1,6 @@
+framework module OlafImageCacher {
+  umbrella header "OlafImageCacher-umbrella.h"
+
+  export *
+  module * { export * }
+}

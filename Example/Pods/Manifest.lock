@@ -1,0 +1,16 @@
+PODS:
+  - OlafImageCacher (0.1.0)
+
+DEPENDENCIES:
+  - OlafImageCacher (from `../`)
+
+EXTERNAL SOURCES:
+  OlafImageCacher:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  OlafImageCacher: e426bbe00d9dc96ecc12c508eb616a262f2644a3
+
+PODFILE CHECKSUM: 7bff4e0e31016d0dd700872b704e3025d0726a58
+
+COCOAPODS: 1.10.0.rc.1
