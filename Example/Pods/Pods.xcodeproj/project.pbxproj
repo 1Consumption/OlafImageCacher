@@ -14,6 +14,7 @@
 		7A1343AE3F91D82BB8B56479E07946E3 /* Pods-OlafImageCacher_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DE5FCC19AB284B6A98720D978A70C8D8 /* Pods-OlafImageCacher_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		961CA8B4F31D3FAA53B94B7F5B244803 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		A564A02925166D5600DE513E /* Expiration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A564A02825166D5600DE513E /* Expiration.swift */; };
+		A564A02B2516869A00DE513E /* ExpirableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A564A02A2516869A00DE513E /* ExpirableImage.swift */; };
 		A5823F6D2515D60B007ECBF0 /* OlafImageCacher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5823F6C2515D60B007ECBF0 /* OlafImageCacher.swift */; };
 		A5823FAF2515F9A9007ECBF0 /* UIImageView+OlafImageCacher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5823FAE2515F9A9007ECBF0 /* UIImageView+OlafImageCacher.swift */; };
 		A9413BB4950ACB14BE400AA233929B9E /* OlafImageCacher-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C882F0C8B808BC0A6BA26DB59C8971D7 /* OlafImageCacher-dummy.m */; };
@@ -58,6 +59,7 @@
 		940CF4D350A1C4383E47988664BE7AC9 /* Pods-OlafImageCacher_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-OlafImageCacher_Tests-dummy.m"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A564A02825166D5600DE513E /* Expiration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expiration.swift; sourceTree = "<group>"; };
+		A564A02A2516869A00DE513E /* ExpirableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirableImage.swift; sourceTree = "<group>"; };
 		A5823F6C2515D60B007ECBF0 /* OlafImageCacher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OlafImageCacher.swift; sourceTree = "<group>"; };
 		A5823FAE2515F9A9007ECBF0 /* UIImageView+OlafImageCacher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+OlafImageCacher.swift"; sourceTree = "<group>"; };
 		AE777B618B24A81C1B9B2B3E73136D0E /* Pods-OlafImageCacher_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OlafImageCacher_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				A564A02825166D5600DE513E /* Expiration.swift */,
+				A564A02A2516869A00DE513E /* ExpirableImage.swift */,
 			);
 			path = ImageCache;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 				A564A02925166D5600DE513E /* Expiration.swift in Sources */,
 				A5823FAF2515F9A9007ECBF0 /* UIImageView+OlafImageCacher.swift in Sources */,
 				A9413BB4950ACB14BE400AA233929B9E /* OlafImageCacher-dummy.m in Sources */,
+				A564A02B2516869A00DE513E /* ExpirableImage.swift in Sources */,
 				A5823F6D2515D60B007ECBF0 /* OlafImageCacher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
