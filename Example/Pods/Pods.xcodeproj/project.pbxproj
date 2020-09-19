@@ -14,6 +14,7 @@
 		7A1343AE3F91D82BB8B56479E07946E3 /* Pods-OlafImageCacher_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DE5FCC19AB284B6A98720D978A70C8D8 /* Pods-OlafImageCacher_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		961CA8B4F31D3FAA53B94B7F5B244803 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		A5823F6D2515D60B007ECBF0 /* OlafImageCacher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5823F6C2515D60B007ECBF0 /* OlafImageCacher.swift */; };
+		A5823FAF2515F9A9007ECBF0 /* UIImageView+OlafImageCacher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5823FAE2515F9A9007ECBF0 /* UIImageView+OlafImageCacher.swift */; };
 		A9413BB4950ACB14BE400AA233929B9E /* OlafImageCacher-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C882F0C8B808BC0A6BA26DB59C8971D7 /* OlafImageCacher-dummy.m */; };
 		E40D7D9C36347D43B44195C9AA215735 /* Pods-OlafImageCacher_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F27953086DB013F140E4074662F4E24E /* Pods-OlafImageCacher_Example-dummy.m */; };
 		E5DB9E48E0DE0182847A52C66FFA8810 /* OlafImageCacher-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 93B425525F0A276C3E3444168D6B6BCC /* OlafImageCacher-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -56,6 +57,7 @@
 		940CF4D350A1C4383E47988664BE7AC9 /* Pods-OlafImageCacher_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-OlafImageCacher_Tests-dummy.m"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A5823F6C2515D60B007ECBF0 /* OlafImageCacher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OlafImageCacher.swift; sourceTree = "<group>"; };
+		A5823FAE2515F9A9007ECBF0 /* UIImageView+OlafImageCacher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+OlafImageCacher.swift"; sourceTree = "<group>"; };
 		AE777B618B24A81C1B9B2B3E73136D0E /* Pods-OlafImageCacher_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OlafImageCacher_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		B06C92A2A7BD22042CD3F559216E6970 /* Pods-OlafImageCacher_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-OlafImageCacher_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		C25644EBFE52816D4C3DD3C66A1B9A90 /* OlafImageCacher.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = OlafImageCacher.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -129,9 +131,18 @@
 			name = "Development Pods";
 			sourceTree = "<group>";
 		};
+		A5823FAD2515F98E007ECBF0 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A5823FAE2515F9A9007ECBF0 /* UIImageView+OlafImageCacher.swift */,
+			);
+			path = extensions;
+			sourceTree = "<group>";
+		};
 		A5BC04DC2514CB9B003887E8 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				A5823FAD2515F98E007ECBF0 /* extensions */,
 				A5823F6C2515D60B007ECBF0 /* OlafImageCacher.swift */,
 			);
 			path = Sources;
@@ -396,6 +407,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5823FAF2515F9A9007ECBF0 /* UIImageView+OlafImageCacher.swift in Sources */,
 				A9413BB4950ACB14BE400AA233929B9E /* OlafImageCacher-dummy.m in Sources */,
 				A5823F6D2515D60B007ECBF0 /* OlafImageCacher.swift in Sources */,
 			);
