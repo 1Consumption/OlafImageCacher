@@ -19,11 +19,11 @@ public class MemeoryCache {
     // A timer that allows you to clear caches that have expired during a certain interval
     private var timer: Timer?
     
-    public init(countLitmit: Int = .max, totalCoastLimit: Int = 0, expirationDate: Expiration = .minutes(5), cleanInterval: TimeInterval = 120) {
-        storage.countLimit = countLitmit
-        storage.totalCostLimit = totalCoastLimit
-        self.expirationDate = expirationDate
-        timer = .scheduledTimer(withTimeInterval: cleanInterval, repeats: true) { [weak self] _ in
+    public init(config: Config) {
+        storage.countLimit = config.countLimit
+        storage.totalCostLimit = config.totalCostLimit
+        expirationDate = config.expirationDate
+        timer = .scheduledTimer(withTimeInterval: config.cleanInterval, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             self.cleanExpiredImage()
         }
@@ -84,5 +84,16 @@ public class MemeoryCache {
             return false
         }
         return true
+    }
+}
+
+@available(iOS 10.0, *)
+extension MemeoryCache {
+    public struct Config {
+        
+        public var countLimit: Int
+        public var totalCostLimit: Int
+        public var expirationDate: Expiration
+        public var cleanInterval: TimeInterval
     }
 }
