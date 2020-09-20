@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS 10.0, *)
 public class MemeoryCache {
     
     private let storage: NSCache<NSString, ExpirableImage> = NSCache<NSString, ExpirableImage>()
@@ -15,11 +16,17 @@ public class MemeoryCache {
     private let lock: NSLock = NSLock()
     private let expirationDate: Expiration
     private var keys: Set<NSString> = Set<NSString>()
+    // A timer that allows you to clear caches that have expired during a certain interval
+    private var timer: Timer?
     
-    public init(countLitmit: Int = .max, totalCoastLimit: Int = 0, expirationDate: Expiration = .minutes(5)) {
+    public init(countLitmit: Int = .max, totalCoastLimit: Int = 0, expirationDate: Expiration = .minutes(5), cleanInterval: TimeInterval = 120) {
         storage.countLimit = countLitmit
         storage.totalCostLimit = totalCoastLimit
         self.expirationDate = expirationDate
+        timer = .scheduledTimer(withTimeInterval: cleanInterval, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            self.cleanExpiredImage()
+        }
     }
     
     public func cleanExpiredImage() {
