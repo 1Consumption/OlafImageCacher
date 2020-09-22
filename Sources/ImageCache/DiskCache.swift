@@ -82,10 +82,14 @@ public class DiskCache {
     public func remove(forkey key: String) throws {
         guard let fileURL = cacheURL(forKey: key) else { return }
         
+        try remove(forURL: fileURL)
+    }
+    
+    public func remove(forURL url: URL) throws {
         do {
-            try fileManager.removeItem(at: fileURL)
+            try fileManager.removeItem(at: url)
         } catch {
-            throw OlafImageCacherError.deleteDiskCacheError(fileURL.path)
+            throw OlafImageCacherError.deleteDiskCacheError(url.path)
         }
     }
     
@@ -95,6 +99,24 @@ public class DiskCache {
             try fileManager.removeItem(at: cacheDirectory)
         } catch {
             throw OlafImageCacherError.deleteDiskCacheAllError
+        }
+    }
+    
+    public func removeExpiredData() throws {
+        guard let cacheDirectory = cacheDirectory else { return }
+        guard let urls = fileManager.enumerator(at: cacheDirectory, includingPropertiesForKeys: [.contentModificationDateKey])?.allObjects as? [URL] else { return }
+        
+        let resourceKey: Set<URLResourceKey> = [.contentModificationDateKey]
+        
+        urls.filter { fileURL in
+            do {
+                guard let expirationDate = try fileURL.resourceValues(forKeys: resourceKey).contentModificationDate else { return true }
+                return expirationDate <= Date()
+            } catch {
+                return true
+            }
+        }.forEach {
+            try? remove(forURL: $0)
         }
     }
 }
