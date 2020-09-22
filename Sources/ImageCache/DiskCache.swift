@@ -10,7 +10,6 @@ import Foundation
 public class DiskCache {
     
     private let fileManager = FileManager.default
-    private var keys: Set<String> = Set<String>()
     private var cacheDirectory: URL?
     
     public init(cacheName: String) throws {
@@ -28,9 +27,7 @@ public class DiskCache {
     }
     
     public func store(data: Data, forKey key: String, expiration: Expiration = .never) throws {
-        guard let fileURL = cacheURL(forKey: key) else {
-            return
-        }
+        guard let fileURL = cacheURL(forKey: key) else { return }
         
         do {
             try data.write(to: fileURL)
@@ -49,12 +46,43 @@ public class DiskCache {
             try? fileManager.removeItem(at: fileURL)
             throw OlafImageCacherError.cachingError(fileURL.path)
         }
+    }
+    
+    public func data(forKey key: String, expiration: Expiration) throws -> Data?  {
+        guard let fileURL = cacheURL(forKey: key) else { return nil }
+        let filePath = fileURL.path
         
-        keys.insert(key)
+        guard fileManager.fileExists(atPath: filePath) else { return nil }
+        
+        let resourceKeys: Set<URLResourceKey> = [.contentModificationDateKey]
+        var expectedExpiration: Date
+        do {
+            expectedExpiration = try fileURL.resourceValues(forKeys: resourceKeys).contentModificationDate ?? .distantPast
+        } catch {
+            throw OlafImageCacherError.getModificationDateError(filePath)
+        }
+        
+        guard expectedExpiration > Date() else { return nil }
+        
+        do {
+            let data = try Data(contentsOf: fileURL)
+            resetExpirationDate(forPath: filePath, expiration: expiration)
+            
+            return data
+        } catch {
+            throw OlafImageCacherError.getDataFromURLError(filePath)
+        }
+    }
+    
+    private func resetExpirationDate(forPath path: String, expiration: Expiration) {
+        let attribute: [FileAttributeKey: Date] = [.modificationDate: expiration.expirationDateFromNow]
+        try? fileManager.setAttributes(attribute, ofItemAtPath: path)
     }
 }
 
 public enum OlafImageCacherError: Error {
     case dataWriteError(String)
     case cachingError(String)
+    case getModificationDateError(String)
+    case getDataFromURLError(String)
 }
