@@ -78,6 +78,25 @@ public class DiskCache {
         let attribute: [FileAttributeKey: Date] = [.modificationDate: expiration.expirationDateFromNow]
         try? fileManager.setAttributes(attribute, ofItemAtPath: path)
     }
+    
+    public func remove(forkey key: String) throws {
+        guard let fileURL = cacheURL(forKey: key) else { return }
+        
+        do {
+            try fileManager.removeItem(at: fileURL)
+        } catch {
+            throw OlafImageCacherError.deleteDiskCacheError(fileURL.path)
+        }
+    }
+    
+    public func removeAll() throws {
+        guard let cacheDirectory = cacheDirectory else { return }
+        do {
+            try fileManager.removeItem(at: cacheDirectory)
+        } catch {
+            throw OlafImageCacherError.deleteDiskCacheAllError
+        }
+    }
 }
 
 public enum OlafImageCacherError: Error {
@@ -85,4 +104,6 @@ public enum OlafImageCacherError: Error {
     case cachingError(String)
     case getModificationDateError(String)
     case getDataFromURLError(String)
+    case deleteDiskCacheError(String)
+    case deleteDiskCacheAllError
 }
