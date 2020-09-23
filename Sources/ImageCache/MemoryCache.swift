@@ -8,7 +8,7 @@
 import UIKit
 
 @available(iOS 10.0, *)
-public class MemeoryCache {
+public class MemoryCache {
     
     private let storage: NSCache<NSString, ExpirableImage> = NSCache<NSString, ExpirableImage>()
     // To prevent access while writing to memory.
@@ -88,7 +88,7 @@ public class MemeoryCache {
 }
 
 @available(iOS 10.0, *)
-extension MemeoryCache {
+extension MemoryCache {
     public struct Config {
         
         public var countLimit: Int
