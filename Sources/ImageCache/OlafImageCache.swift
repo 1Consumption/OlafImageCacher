@@ -5,7 +5,7 @@
 //  Created by 신한섭 on 2020/09/23.
 //
 
-import Foundation
+import UIKit
 
 @available(iOS 10.0, *)
 public class OlafImageCache {
@@ -13,6 +13,7 @@ public class OlafImageCache {
     public static let `default` = OlafImageCache(name: "OlafImageCache")
     public var memoryCache: MemoryCache
     public var diskCache: DiskCache
+    private let ioQueue: DispatchQueue = DispatchQueue(label: "OlafImageCacher.\(UUID().uuidString)")
     
     public init(memoryCache: MemoryCache, diskCache: DiskCache) {
         self.memoryCache = memoryCache
@@ -41,5 +42,38 @@ public class OlafImageCache {
     
     @objc public func removeExpiredImage() {
         memoryCache.cleanExpiredImage()
+    }
+    
+    public func store(_ data: Data, forKey key: String, toDisk: Bool = true, completionHandler: @escaping ((CacheStoreResult) -> ())) {
+        var cacheResult = CacheStoreResult(memoryCacheError: .success(()), diskCacheError: .success(()))
+        
+        if let image = UIImage(data: data) {
+            memoryCache.store(image: image, forKey: NSString(string: key))
+        } else {
+            cacheResult = CacheStoreResult(memoryCacheError: .failure(.convertDataToImageError(key)), diskCacheError: .failure(.cachingError(key)))
+        }
+        
+        guard toDisk else {
+            completionHandler(cacheResult)
+            return
+        }
+        
+        ioQueue.async { [weak self] in
+            do {
+                try self?.diskCache.store(data: data, forKey: key)
+                completionHandler(cacheResult)
+            } catch {
+                cacheResult = CacheStoreResult(memoryCacheError: .success(()), diskCacheError: .failure(.cachingError(key)))
+                completionHandler(cacheResult)
+            }
+        }
+    }
+}
+
+@available(iOS 10.0, *)
+extension OlafImageCache {
+    public struct CacheStoreResult {
+        let memoryCacheError: Result<(), OlafImageCacherError>
+        let diskCacheError: Result<(), OlafImageCacherError>
     }
 }

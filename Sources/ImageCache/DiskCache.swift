@@ -122,6 +122,7 @@ public class DiskCache {
 }
 
 public enum OlafImageCacherError: Error {
+    case convertDataToImageError(String)
     case dataWriteError(String)
     case cachingError(String)
     case getModificationDateError(String)
