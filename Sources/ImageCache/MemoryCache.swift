@@ -13,7 +13,7 @@ public class MemoryCache {
     private let storage: NSCache<NSString, ExpirableImage> = NSCache<NSString, ExpirableImage>()
     // To prevent access while writing to memory.
     // e.g. store, remove
-    private let lock: NSLock = NSLock()
+    private let semaphore: DispatchSemaphore = DispatchSemaphore(value: 0)
     private let expirationDate: Expiration
     private var keys: Set<NSString> = Set<NSString>()
     // A timer that allows you to clear caches that have expired during a certain interval
@@ -30,8 +30,8 @@ public class MemoryCache {
     }
     
     public func cleanExpiredImage() {
-        lock.lock()
-        defer { lock.unlock() }
+        semaphore.wait()
+        defer { semaphore.signal() }
         
         keys.forEach {
             if let image = storage.object(forKey: $0) {
@@ -46,8 +46,8 @@ public class MemoryCache {
     }
     
     public func store(image: UIImage, forKey key: NSString) {
-        lock.lock()
-        defer { lock.unlock() }
+        semaphore.wait()
+        defer { semaphore.signal() }
         
         let expirableImage = ExpirableImage(image: image, expiration: expirationDate)
         storage.setObject(expirableImage, forKey: key)
@@ -55,16 +55,16 @@ public class MemoryCache {
     }
     
     public func remove(forKey key: NSString) {
-        lock.lock()
-        defer { lock.unlock() }
+        semaphore.wait()
+        defer { semaphore.signal() }
         
         storage.removeObject(forKey: key)
         keys.remove(key)
     }
     
     public func removeAll() {
-        lock.lock()
-        defer { lock.unlock() }
+        semaphore.wait()
+        defer { semaphore.signal() }
         
         storage.removeAllObjects()
         keys.removeAll()
