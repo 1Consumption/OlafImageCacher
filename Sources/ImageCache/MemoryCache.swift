@@ -79,10 +79,17 @@ public class MemoryCache {
         return expirableImage
     }
     
+    public func isExpired(forKey key: NSString) -> Bool {
+        guard let expirableImage = storage.object(forKey: key) else { return true }
+        guard !expirableImage.isExpired() else { return true }
+        
+        return false
+    }
+    
     public func isCached(forKey key: NSString) -> Bool {
-        guard let _ = image(forKey: key) else {
-            return false
-        }
+        guard let _ = image(forKey: key) else { return false }
+        guard !isExpired(forKey: key) else { return false }
+        
         return true
     }
 }

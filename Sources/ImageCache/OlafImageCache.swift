@@ -68,6 +68,23 @@ public class OlafImageCache {
             }
         }
     }
+    
+    public func isCached(forKey key: String) -> CacheType {
+        if memoryCache.isCached(forKey: NSString(string: key)) {
+            return .memory
+        }
+        
+        do {
+            if try diskCache.isCached(forKey: key) {
+                return .disk
+            }
+        } catch {
+            return .none
+        }
+        
+        return .none
+    }
+    
 }
 
 @available(iOS 10.0, *)
@@ -75,5 +92,20 @@ extension OlafImageCache {
     public struct CacheStoreResult {
         let memoryCacheError: Result<(), OlafImageCacherError>
         let diskCacheError: Result<(), OlafImageCacherError>
+    }
+    
+    public enum CacheType {
+        case memory
+        case disk
+        case none
+        
+        public var result: Bool {
+            switch self {
+            case .memory, .disk:
+                return true
+            case .none:
+                return false
+            }
+        }
     }
 }
