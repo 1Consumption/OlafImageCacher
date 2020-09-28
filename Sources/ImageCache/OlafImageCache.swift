@@ -108,4 +108,33 @@ extension OlafImageCache {
             }
         }
     }
+    
+    public enum ImageCacheResult {
+        case memory(UIImage)
+        case disk(UIImage)
+        case none
+        
+        public var image: UIImage? {
+            switch self {
+            case .memory(let image):
+                return image
+            case .disk(let image):
+                return image
+            case .none:
+                return nil
+            }
+        }
+        
+        public var cacheType: CacheType {
+            switch self {
+            case .memory:
+                return .memory
+            case .disk:
+                return .disk
+            case .none:
+                return .none
+            }
+        }
+    }
+    
 }
