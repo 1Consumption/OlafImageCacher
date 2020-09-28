@@ -52,17 +52,7 @@ public class DiskCache {
         guard let fileURL = cacheURL(forKey: key) else { return nil }
         let filePath = fileURL.path
         
-        guard fileManager.fileExists(atPath: filePath) else { return nil }
-        
-        let resourceKeys: Set<URLResourceKey> = [.contentModificationDateKey]
-        var expectedExpiration: Date
-        do {
-            expectedExpiration = try fileURL.resourceValues(forKeys: resourceKeys).contentModificationDate ?? .distantPast
-        } catch {
-            throw OlafImageCacherError.getModificationDateError(filePath)
-        }
-        
-        guard expectedExpiration > Date() else { return nil }
+        guard try isCached(forKey: key) else { return nil }
         
         do {
             let data = try Data(contentsOf: fileURL)
@@ -118,6 +108,25 @@ public class DiskCache {
         }.forEach {
             try? remove(forURL: $0)
         }
+    }
+    
+    public func isCached(forKey key: String) throws -> Bool {
+        guard let fileURL = cacheURL(forKey: key) else { return false }
+        let filePath = fileURL.path
+        
+        guard fileManager.fileExists(atPath: filePath) else { return false }
+        
+        let resourceKeys: Set<URLResourceKey> = [.contentModificationDateKey]
+        var expectedExpiration: Date
+        do {
+            expectedExpiration = try fileURL.resourceValues(forKeys: resourceKeys).contentModificationDate ?? .distantPast
+        } catch {
+            throw OlafImageCacherError.getModificationDateError(filePath)
+        }
+        
+        guard expectedExpiration > Date() else { return false }
+        
+        return true
     }
 }
 
