@@ -85,6 +85,25 @@ public class OlafImageCache {
         return .none
     }
     
+    public func image(forKey key: String) -> ImageCacheResult {
+        let cachedReulst = isCached(forKey: key)
+        
+        switch cachedReulst {
+        case .memory:
+            guard let image = memoryCache.image(forKey: NSString(string: key))?.image else { return .none }
+            return .memory(image)
+        case .disk:
+            do {
+                guard let data = try diskCache.data(forKey: key, expiration: .never) else { return .none }
+                guard let image = UIImage(data: data) else { return .none }
+                return .disk(image)
+            } catch {
+                return .none
+            }
+        case .none:
+            return .none
+        }
+    }
 }
 
 @available(iOS 10.0, *)
